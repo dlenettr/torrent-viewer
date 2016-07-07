@@ -1,0 +1,126 @@
+Dosya: engine/modules/functions.php
+====================================
+Bul:
+--------------------------------
+$tpl->compile( 'attachment' );
+--------------------------------
+
+Üstüne ekle:
+--------------------------------
+// Torrent Viewer - 2 - start
+		include ENGINE_DIR . "/modules/torrent.viewer.php";
+// Torrent Viewer - 2 - end
+--------------------------------
+
+Bul:
+--------------------------------
+$row['name'] = end( $row['name'] );
+--------------------------------
+
+Altına ekle:
+--------------------------------
+// Torrent Viewer - 1 - start
+		$is_torrent = ( substr( $row['name'], -7 ) == "torrent" ) ? true : false;
+// Torrent Viewer - 1 - end
+--------------------------------
+
+
+attachment.tpl de kullanabileceğiniz taglar
+--------------------------------
+
+	[torrent]
+		Adı: {torrent:name}<br />
+		[torrent:announce]
+			Anons Adresleri: {torrent:announce}<br />
+		[/torrent:announce]
+		Anons Adresleri: {torrent:announce}<br />
+		Yorum: {torrent:comment}<br />
+		Dosya Sayısı: {torrent:count}<br />
+		Parça: {torrent:pieces}<br />
+		Boyut: {torrent:size}<br />
+		HASH: {torrent:hash}<br />
+		İstatistikler: {torrent:stats}<br />
+		Magnet: <a href="{torrent:magnet}">magnet</a><br />
+		Dosya Listesi (10): {torrent:list-10}<br />
+	[/torrent]
+
+
+	[not-torrent]
+		Torrent Dosyası değil
+	[/not-torrent]
+
+--------------------------------
+
+
+Stil için CSS kodunu temanızda bir .css dosyasına ekleyin ( engine.css )
+( Tasarım @Hagen tarafından yapılmıştır )
+-------------------
+.torrent{background: #009688;border:5px solid #F2F0ED;border-radius:9px;width:640px;cursor:default;font-size: 14px;margin: 0 auto;}
+.torrent .doc22{line-height:27px;font-weight: 500;text-indent: 11px;background: #05a092;border: 1px solid #038a7d;color: #fff;}
+.torrentname{background: #05a092;margin:7px;border-radius:3px;height:28px;}
+.torrentnamex{float:left;background: #e0e0e0;padding: 1px;margin:3px;border: 1px solid #c1c1c1;border-radius: 2px;width: 100px;}
+.torrentname-text{float:right;padding: 2px;margin:3px;background: #1d7f4e;color:#fff;width: 501px;border-radius:2px;font-weight:600;}
+.torrentname-stext{float:left;padding: 3px;margin:3px;background:#329664;color:#fff;width: 72px;border-radius:2px;font-weight:600;}
+.torrentdoct{background: #ffffff;margin: 9px;padding:4px !important;border-radius:3px;height: 95px;width: 597px !important;text-align:left;overflow: scroll;border-left: 7px solid #f1f1f1;border-top: 7px solid #f1f1f1;}
+.torrentdoct ul {padding: 0;margin: 0;list-style: none;}
+.torrentdoct li{white-space:nowrap;}
+.torrentstats { height: auto; }
+.torrentstats > ul {  }
+.torrentstats > ul > li { padding: 3px; border-radius: 2px; }
+.torrentstats > ul > li:hover { background: #eee; }
+.torrentstats > ul > li:hover > ul { display: block; }
+.torrentstats > ul > li > ul { display: none; }
+.torrentstats > ul > li > ul > li { float: left; display: inline-block; }
+.torrentstats > ul > li > ul > li > span { padding: 2px 5px; color: #fff; border-radius: 5px; margin: 2px 5px; font-size: 13px; }
+.torrentstats > ul > li > ul > li:nth-child(1) > span:before { content: 'completed: '; }
+.torrentstats > ul > li > ul > li:nth-child(1) > span { background: #00cc00; margin-left: 0px; }
+.torrentstats > ul > li > ul > li:nth-child(2) > span { background: #0000cc; }
+.torrentstats > ul > li > ul > li:nth-child(2) > span:before { content: 'downloaded: '; }
+.torrentstats > ul > li > ul > li:nth-child(3) > span { background: #AAA; }
+.torrentstats > ul > li > ul > li:nth-child(3) > span:before { content: 'incompleted: '; }
+.torrent a.attachment{height:22px;display:block;background: #8BC34A;color:#fff !important;margin:13px;font-size:18px;padding:5px;border-radius:3px;text-align:center;text-decoration: none;transition: ease 0.2s;}
+.torrent a.attachment:hover{background: #9ddc54;text-decoration:none;}
+.torrent .bilgi {background: #01a092;color: #fff !important;text-decoration: none;margin: 0px 10px 10px 14px;text-align: center;padding: 5px;display: inline-block;}
+-------------------
+
+ve yukarıdaki stili kullanabilmek için attachment.tpl'ye bunları ekleyin
+
+-------------------
+	[torrent]
+		<div class="torrent">
+			<div class="torrentname"><div class="torrentnamex">Dosya Adı:</div><div class="torrentname-text">{torrent:name}</div></div>
+			<div class="torrentname"><div class="torrentnamex">Dosya Boyutu:</div><div class="torrentname-text">{torrent:size}</div></div>
+			[torrent:comment]<div class="torrentname"><div class="torrentnamex">Dosya Yorumu:</div><div class="torrentname-text">{torrent:comment}</div></div>[/torrent:comment]
+			[not-torrent:comment]<div class="torrentname"><div class="torrentnamex">Dosya Yorumu:</div><div class="torrentname-text">Yorum Yok</div></div>[/not-torrent:comment]
+			<div class="torrentname"><div class="torrentnamex">Dosya Hash:</div><div class="torrentname-text">{torrent:hash}</div></div>
+			<div class="torrentname">
+				<div class="torrentnamex">Dosya Sayısı:</div>
+				<div class="torrentname-stext">{torrent:count}</div>
+				<div class="torrentnamex">Parça Sayısı:</div>
+				<div class="torrentname-stext">{torrent:pieces}</div>
+				<div class="torrentnamex">İndirilme:</div>
+				<div class="torrentname-stext">{count}</div>
+			</div>
+			<div class="torrentname doc22">Torrent ile indereceğiniz dosyalar</div>
+			<div class="torrentdoct">
+				{torrent:list-10}
+			</div>
+			[torrent:announce]
+			<div class="torrentname doc22">Anons Adresleri</div>
+			<div class="torrentdoct">
+				{torrent:announce}
+			</div>
+			[/torrent:announce]
+			<div class="torrentname doc22">İstatistikler</div>
+			<div class="torrentdoct torrentstats">
+				{torrent:stats}
+			</div>
+			<a class="attachment" href="{link}" ><i class="fa fa-download"></i>Torrent Dosyasını İndir [{size}]</a>
+			<a class="attachment" href="{torrent:magnet}" ><i class="fa fa-download"></i>Magnet Link</a>
+		</div>
+	[/torrent]
+
+	[not-torrent]
+		Torrent Dosyası değil
+	[/not-torrent]
+-------------------

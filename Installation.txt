@@ -1,0 +1,122 @@
+File: engine/modules/functions.php
+====================================
+Find:
+--------------------------------
+$tpl->compile( 'attachment' );
+--------------------------------
+
+Insert above:
+--------------------------------
+// Torrent Viewer - 2 - start
+		include ENGINE_DIR . "/modules/torrent.viewer.php";
+// Torrent Viewer - 2 - end
+--------------------------------
+
+Find:
+--------------------------------
+$row['name'] = end( $row['name'] );
+--------------------------------
+
+Insert below:
+--------------------------------
+// Torrent Viewer - 1 - start
+		$is_torrent = ( substr( $row['name'], -7 ) == "torrent" ) ? true : false;
+// Torrent Viewer - 1 - end
+--------------------------------
+
+
+usable tags for attachment.tpl
+--------------------------------
+
+	[torrent]
+		Name: {torrent:name}<br />
+		[torrent:announce]
+			Announce List: {torrent:announce}<br />
+		[/torrent:announce]
+		Comment: {torrent:comment}<br />
+		File Count: {torrent:count}<br />
+		Pieces: {torrent:pieces}<br />
+		Size: {torrent:size}<br />
+		HASH: {torrent:hash}<br />
+		Stats: {torrent:stats}<br />
+		Magnet: <a href="{torrent:magnet}">magnet</a><br />
+		File List (10) : {torrent:list-10}<br />
+	[/torrent]
+
+	[not-torrent]
+		Not a Torrent file
+	[/not-torrent]
+
+--------------------------------
+
+Add CSS codes to any .css file on your template ( engine.css )
+( Design made by @Hagen )
+-------------------
+.torrent{background: #009688;border:5px solid #F2F0ED;border-radius:9px;width:640px;cursor:default;font-size: 14px;margin: 0 auto;}
+.torrent .doc22{line-height:27px;font-weight: 500;text-indent: 11px;background: #05a092;border: 1px solid #038a7d;color: #fff;}
+.torrentname{background: #05a092;margin:7px;border-radius:3px;height:28px;}
+.torrentnamex{float:left;background: #e0e0e0;padding: 1px;margin:3px;border: 1px solid #c1c1c1;border-radius: 2px;width: 100px;}
+.torrentname-text{float:right;padding: 2px;margin:3px;background: #1d7f4e;color:#fff;width: 501px;border-radius:2px;font-weight:600;}
+.torrentname-stext{float:left;padding: 3px;margin:3px;background:#329664;color:#fff;width: 72px;border-radius:2px;font-weight:600;}
+.torrentdoct{background: #ffffff;margin: 9px;padding:4px !important;border-radius:3px;height: 95px;width: 597px !important;text-align:left;overflow: scroll;border-left: 7px solid #f1f1f1;border-top: 7px solid #f1f1f1;}
+.torrentdoct ul {padding: 0;margin: 0;list-style: none;}
+.torrentdoct li{white-space:nowrap;}
+.torrentstats { height: auto; }
+.torrentstats > ul {  }
+.torrentstats > ul > li { padding: 3px; border-radius: 2px; }
+.torrentstats > ul > li:hover { background: #eee; }
+.torrentstats > ul > li:hover > ul { display: block; }
+.torrentstats > ul > li > ul { display: none; }
+.torrentstats > ul > li > ul > li { float: left; display: inline-block; }
+.torrentstats > ul > li > ul > li > span { padding: 2px 5px; color: #fff; border-radius: 5px; margin: 2px 5px; font-size: 13px; }
+.torrentstats > ul > li > ul > li:nth-child(1) > span:before { content: 'completed: '; }
+.torrentstats > ul > li > ul > li:nth-child(1) > span { background: #00cc00; margin-left: 0px; }
+.torrentstats > ul > li > ul > li:nth-child(2) > span { background: #0000cc; }
+.torrentstats > ul > li > ul > li:nth-child(2) > span:before { content: 'downloaded: '; }
+.torrentstats > ul > li > ul > li:nth-child(3) > span { background: #AAA; }
+.torrentstats > ul > li > ul > li:nth-child(3) > span:before { content: 'incompleted: '; }
+.torrent a.attachment{height:22px;display:block;background: #8BC34A;color:#fff !important;margin:13px;font-size:18px;padding:5px;border-radius:3px;text-align:center;text-decoration: none;transition: ease 0.2s;}
+.torrent a.attachment:hover{background: #9ddc54;text-decoration:none;}
+.torrent .bilgi {background: #01a092;color: #fff !important;text-decoration: none;margin: 0px 10px 10px 14px;text-align: center;padding: 5px;display: inline-block;}
+-------------------
+
+and to use above style, add these to attachment.tpl file
+-------------------
+	[torrent]
+		<div class="torrent">
+			<div class="torrentname"><div class="torrentnamex">File Name:</div><div class="torrentname-text">{torrent:name}</div></div>
+			<div class="torrentname"><div class="torrentnamex">File Size:</div><div class="torrentname-text">{torrent:size}</div></div>
+			[torrent:comment]<div class="torrentname"><div class="torrentnamex">File Comment:</div><div class="torrentname-text">{torrent:comment}</div></div>[/torrent:comment]
+			[not-torrent:comment]<div class="torrentname"><div class="torrentnamex">File Comment:</div><div class="torrentname-text">No Comment</div></div>[/not-torrent:comment]
+			<div class="torrentname"><div class="torrentnamex">File Hash:</div><div class="torrentname-text">{torrent:hash}</div></div>
+			<div class="torrentname">
+				<div class="torrentnamex">File Count:</div>
+				<div class="torrentname-stext">{torrent:count}</div>
+				<div class="torrentnamex">Pieces:</div>
+				<div class="torrentname-stext">{torrent:pieces}</div>
+				<div class="torrentnamex">Downloads:</div>
+				<div class="torrentname-stext">{count}</div>
+			</div>
+			<div class="torrentname doc22">Torrent File Contents</div>
+			<div class="torrentdoct">
+				{torrent:list-10}
+			</div>
+			[torrent:announce]
+			<div class="torrentname doc22">Announce</div>
+			<div class="torrentdoct">
+				{torrent:announce}
+			</div>
+			[/torrent:announce]
+			<div class="torrentname doc22">Stats</div>
+			<div class="torrentdoct torrentstats">
+				{torrent:stats}
+			</div>
+			<a class="attachment" href="{link}" ><i class="fa fa-download"></i>Download Torrent File [{size}]</a>
+			<a class="attachment" href="{torrent:magnet}" ><i class="fa fa-download"></i>Magnet Link</a>
+		</div>
+	[/torrent]
+
+	[not-torrent]
+		Not torrent file
+	[/not-torrent]
+-------------------
