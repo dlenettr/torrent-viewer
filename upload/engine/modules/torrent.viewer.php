@@ -24,7 +24,7 @@ if ( $is_torrent ) {
 
 	$caching = $dle_api->load_from_cache( "news_torrent_" . $row['id'], $timeout = 60 * $tor_set['cache_interval_minute'], $type = "array" );
 
-	if ( ! $tor_set['use_cache'] ) {
+	if ( ! $caching && $tor_set['use_cache'] ) {
 
 		require_once ENGINE_DIR . '/classes/torrent.class.php';
 		$torrent = new Torrent ( ROOT_DIR . '/uploads/files/' . $row['onserver'] );
