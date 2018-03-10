@@ -40,6 +40,9 @@ attachment.tpl de kullanabileceğiniz taglar
 		Boyut: {torrent:size}<br />
 		HASH: {torrent:hash}<br />
 		İstatistikler: {torrent:stats}<br />
+		Tamamlandı: {torrent:complete}<br />
+		İndirildi: {torrent:downloaded}<br />
+		İndiriliyor: {torrent:incomplete}<br />
 		Magnet: <a href="{torrent:magnet}">magnet</a><br />
 		Dosya Listesi (10): {torrent:list-10}<br />
 	[/torrent]
@@ -64,8 +67,10 @@ Stil için CSS kodunu temanızda bir .css dosyasına ekleyin ( engine.css )
 .torrentdoct{background: #ffffff;margin: 9px;padding:4px !important;border-radius:3px;height: 95px;width: 597px !important;text-align:left;overflow: scroll;border-left: 7px solid #f1f1f1;border-top: 7px solid #f1f1f1;}
 .torrentdoct ul {padding: 0;margin: 0;list-style: none;}
 .torrentdoct li{white-space:nowrap;}
+.torrentcstat { height: auto; }
+.torrentcstat > p { border-bottom: 1px dotted #ccc; margin: 3px; }
+.torrentcstat > p > span { margin-left: 15px; }
 .torrentstats { height: auto; }
-.torrentstats > ul {  }
 .torrentstats > ul > li { padding: 3px; border-radius: 2px; }
 .torrentstats > ul > li:hover { background: #eee; }
 .torrentstats > ul > li:hover > ul { display: block; }
@@ -80,7 +85,6 @@ Stil için CSS kodunu temanızda bir .css dosyasına ekleyin ( engine.css )
 .torrentstats > ul > li > ul > li:nth-child(3) > span:before { content: 'incompleted: '; }
 .torrent a.attachment{height:22px;display:block;background: #8BC34A;color:#fff !important;margin:13px;font-size:18px;padding:5px;border-radius:3px;text-align:center;text-decoration: none;transition: ease 0.2s;}
 .torrent a.attachment:hover{background: #9ddc54;text-decoration:none;}
-.torrent .bilgi {background: #01a092;color: #fff !important;text-decoration: none;margin: 0px 10px 10px 14px;text-align: center;padding: 5px;display: inline-block;}
 -------------------
 
 ve yukarıdaki stili kullanabilmek için attachment.tpl'ye bunları ekleyin
@@ -114,6 +118,11 @@ ve yukarıdaki stili kullanabilmek için attachment.tpl'ye bunları ekleyin
 			<div class="torrentname doc22">İstatistikler</div>
 			<div class="torrentdoct torrentstats">
 				{torrent:stats}
+			</div>
+			<div class="torrentdoct torrentcstat">
+				<p><b>Tamamlandı</b><span>{torrent:complete}</span></p>
+				<p><b>İndirildi</b><span>{torrent:downloaded}</span></p>
+				<p><b>İndiriliyor</b><span>{torrent:incomplete}</span></p>
 			</div>
 			<a class="attachment" href="{link}" ><i class="fa fa-download"></i>Torrent Dosyasını İndir [{size}]</a>
 			<a class="attachment" href="{torrent:magnet}" ><i class="fa fa-download"></i>Magnet Link</a>
